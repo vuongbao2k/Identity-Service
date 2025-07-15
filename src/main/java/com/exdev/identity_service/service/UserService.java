@@ -3,8 +3,6 @@ package com.exdev.identity_service.service;
 import java.util.HashSet;
 import java.util.List;
 
-import com.exdev.identity_service.constant.PredefinedRole;
-import com.exdev.identity_service.enums.Role;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.exdev.identity_service.constant.PredefinedRole;
 import com.exdev.identity_service.dto.request.UserCreationRequest;
 import com.exdev.identity_service.dto.request.UserUpdateRequest;
 import com.exdev.identity_service.dto.response.UserResponse;
@@ -38,9 +37,9 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
     public UserResponse createUser(UserCreationRequest request) {
-//        if (userRepository.existsByUsername(request.getUsername())) {
-//            throw new AppException(ErrorCode.USER_EXISTED);
-//        }
+        //        if (userRepository.existsByUsername(request.getUsername())) {
+        //            throw new AppException(ErrorCode.USER_EXISTED);
+        //        }
 
         User user = userMapper.toUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
@@ -59,7 +58,7 @@ public class UserService {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-//    @PreAuthorize("hasAuthority('APPROVE_POST')")
+    //    @PreAuthorize("hasAuthority('APPROVE_POST')")
     public List<UserResponse> getAllUsers() {
         log.info("In method get all users");
         return userRepository.findAll().stream().map(userMapper::toUserResponse).toList();
